@@ -94,3 +94,171 @@ Entity:
 ## 6.3. Biểu đồ tuần tự
 ![](https://www.planttext.com/api/plantuml/png/dLJRReCm37tFLrXzMP6sVK1LLLKlqnwhTVi0DxWb8YGi2PNu-paKA5qlayP3aEnpV8uTmzm7TA4gjF2vCk2i9n0eWtMmhNsWGfISLrALQ0ACDbWxg_LMPfHMcjm8fjE5hKoAhfxDRc8tpahotZROfJM1Wmmb4rIeORGkIcrhefXTDx51iYtnGTAwz09neRH0atywD9wDAslUqQIjjxEUU88jVLTa987T0nrPmujJZ_0oWz-TJI0uTJYGQnFZHFo636XzanDmbRcYzEb8wJfcAB46E-aY_iqEv8IsjeGzamXb1jI21F1pg-x5i2OWKSjAOo2EZpjoSfTzxGfAh0kU4XGKCfkAXeewH7eJtzMmp4Zcm1KsIkPLsK3-y3SOLUcK2HoMiKhlyJaAdpivMIRDYxbIZcI05PNMg_1GxFPAJC2JIGVnUwAlMF1MXwJNY7t7ckrN0Ly6ZwWqxZJrcFZSrdtaA8wx_eybxaHqx_vkkck40brEQRC-AMcAbHyEx7p_3RpVoN5o5ccEEP_nV_43)
 
+---
+# Java code mô phỏng ca sử dụng Maintain Timecard
+```java
+// TimecardForm.java
+package Boundary;
+
+import Entity.Timecard;
+import Entity.Employee;
+import Control.TimecardController;
+
+public class TimecardForm {
+    private TimecardController controller;
+
+    public TimecardForm(TimecardController controller) {
+        this.controller = controller;
+    }
+
+    public void displayForm() {
+        // Hiển thị form cho người dùng để nhập thông tin chấm công
+        System.out.println("Enter Timecard Information.");
+    }
+
+    public void submitTimecard(Employee emp, Timecard timecard) {
+        controller.processTimecard(emp, timecard);
+    }
+}
+```
+
+```java
+// ProjectManagementDatabase.java
+package Boundary;
+
+import Entity.Timecard;
+import java.util.HashMap;
+import java.util.Map;
+
+public class ProjectManagementDatabase {
+    private Map<Integer, Timecard> timecardData = new HashMap<>();
+
+    public ProjectManagementDatabase() {
+        // Giả lập dữ liệu chấm công có sẵn trong cơ sở dữ liệu
+        // timecardData.put(employeeId, new Timecard(...));
+    }
+
+    public Timecard retrieveTimecard(int employeeId) {
+        return timecardData.get(employeeId);
+    }
+}
+```
+
+```java
+// TimecardController.java
+package Control;
+
+import Entity.Employee;
+import Entity.Timecard;
+import Boundary.ProjectManagementDatabase;
+
+public class TimecardController {
+    private ProjectManagementDatabase database;
+
+    public TimecardController(ProjectManagementDatabase database) {
+        this.database = database;
+    }
+
+    public void processTimecard(Employee emp, Timecard timecard) {
+        if (validateTimecard(timecard)) {
+            emp.updateEmployeeTimecard(timecard);
+            System.out.println("Timecard processed and updated successfully.");
+        } else {
+            System.out.println("Invalid Timecard.");
+        }
+    }
+
+    public boolean validateTimecard(Timecard timecard) {
+        // Xác thực dữ liệu của timecard
+        return timecard.getHoursWorked() > 0 && timecard.getDate() != null;
+    }
+}
+```
+
+```java
+// Employee.java
+package Entity;
+
+import java.util.ArrayList;
+import java.util.List;
+
+public class Employee {
+    private int id;
+    private String name;
+    private String address;
+    private List<Timecard> timecards = new ArrayList<>();
+
+    public Employee(int id, String name, String address) {
+        this.id = id;
+        this.name = name;
+        this.address = address;
+    }
+
+    public void getEmployeeDetails() {
+        System.out.println("Employee ID: " + id);
+        System.out.println("Name: " + name);
+        System.out.println("Address: " + address);
+    }
+
+    public void updateEmployeeTimecard(Timecard timecard) {
+        timecards.add(timecard);
+        System.out.println("Timecard added for employee: " + id);
+    }
+}
+```
+
+```java
+Timecard.java
+package Entity;
+
+import java.util.Date;
+
+public class Timecard {
+    private Date date;
+    private double hoursWorked;
+
+    public Timecard(Date date, double hoursWorked) {
+        this.date = date;
+        this.hoursWorked = hoursWorked;
+    }
+
+    public void getTimecardDetails() {
+        System.out.println("Date: " + date);
+        System.out.println("Hours Worked: " + hoursWorked);
+    }
+
+    public Date getDate() {
+        return date;
+    }
+
+    public double getHoursWorked() {
+        return hoursWorked;
+    }
+}
+```
+
+```java
+// main.java
+import Boundary.ProjectManagementDatabase;
+import Boundary.TimecardForm;
+import Control.TimecardController;
+import Entity.Employee;
+import Entity.Timecard;
+import java.util.Date;
+
+public class Main {
+    public static void main(String[] args) {
+        ProjectManagementDatabase database = new ProjectManagementDatabase();
+        TimecardController controller = new TimecardController(database);
+        TimecardForm form = new TimecardForm(controller);
+
+        // Tạo nhân viên và thẻ chấm công mẫu
+        Employee emp = new Employee(1, "Le Anh", "573 An Duong Vuong");
+        Timecard timecard = new Timecard(new Date(), 8.0);
+
+        // Nhập thông tin và gửi thẻ chấm công
+        form.displayForm();
+        form.submitTimecard(emp, timecard);
+    }
+}
+```
