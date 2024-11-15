@@ -21,3 +21,34 @@
 - `Project` là thông tin cụ thể về một dự án.
 
 ![](https://www.planttext.com/api/plantuml/png/nLDDImCn4BtdLmoUjc3t1oob56o57WH5R-9XDXbBRBwSP8KY_UzckxkrBhKUlOHXtfkPDnzPn8IS6cj4t6e7x2C94L1kSKEmTedu5IN1R7RhZIAUp-5J0EWZi5vYmXeZFH9_wEneOG3fhTMfU6-8TnKiwuVMc5mVCEqYyI-O8aE9pcDbMHQJREt5_blYZNU9lJ74OutIO8nmp_wDPBf3bzcMN3e9wAKoOQAULmJseHgY-i9DK7ymEja3GwiA2eiXO6reqdjBhJhn04Tn_poxbKiwxIxEhPVKTfHttkLoQAc2c5YxpL0vIjOXQUz-0fPiJHmhMDbW_8xe-QK33bUNsy-9slT9MnfIeJBQdVW7rPSsEPtEnyEiu4gYCLTYFEIMExxQJ6uYnVFall2H8nRaLFunNm00)
+
+## 2. Analysis class to design element map
+
+| **Các lớp phân tích** | **Phần tử thiết kế** |
+|---------------------|--------------------|
+|Employee            |EmployeeManagementService  |
+|Timecard         |TimecardProcessorService   |
+|Paycheck          |PayrollProcessorService |
+|BankSystem     |BankTransactionService |
+|ProjectManagement      |ProjectManagementService |
+|Document    |PrintService |
+
+## 3. Design element to owning package map
+| **Phần tử thiết kế** | **Gói** |
+|---------------------|--------------------|
+|EmployeeManagementService      |Employee |
+|TimecardProcessingService      |Timecard   |
+|PayrollProcessingService      |Payroll |
+|BankTransactionService       |BankSystem |
+|ProjectManagementService      |ProjectService  |
+|PrintService    |PrintService  |
+|BankSystem    |Infrastructure  |
+|PrinterService     |Infrastructure  |
+|ProjectManagementDatabase    |DataAccess  |
+|EmployeeDB      |DataAccess  |
+|ProjectDB    |DataAccess  |
+|TimecardDB    |DataAccess  |
+|BankDB    |DataAccess  |
+
+## 4. Design element to owning package map
+![](https://www.planttext.com/api/plantuml/png/ZPH1JiCm44NtFeNLVQ-0shGiM20XjHSOtA4oSSRHs46A47UlNGLY4pkGJQIPbvd__Qtid0VsGsU4QpL9jWwbw46rS4MvsVUzqGgyjhIHdqA6HnbmJhx0oDQOWoKVtyXfZ-qxAb_fQKexNs9UrWnE4mReXFoX5RfyvMFN6piYFWC5l4Fo4vSmPzsX0hu42U7xCEwwP1gWzin03bJqjGGc_MjxxZQ-owc78tYGUnMNbzKVcuBSh1ZrPOL9JwYbcvxeZS5v7fGV6FDbSSHfT1wxDLjHwokuXI_anDaYQBdTFgnaKURhkPJvIaPYSRNkT3KmyUkwJNIIdQWwoNo6iwzQo0m6iApznrOWQdfJCm7xQzAKy7-c5K9FZs4-bpbxiKEwnF_23G00)
